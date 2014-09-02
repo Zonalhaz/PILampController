@@ -1,0 +1,24 @@
+{
+    "appKeys": {
+        "KEY_ISGET": 2,
+        "KEY_PIN": 0,
+        "KEY_SETSTATE": 3,
+        "KEY_STATE": 1
+    },
+    "capabilities": [
+        ""
+    ],
+    "companyName": "Zonalhaz",
+    "longName": "Pi Lamp Controller",
+    "projectType": "native",
+    "resources": {
+        "media": []
+    },
+    "shortName": "Pi Lamp Controller",
+    "uuid": "0f325dc2-9d18-4798-8203-5a5f89636558",
+    "versionCode": 1,
+    "versionLabel": "1.0",
+    "watchapp": {
+        "watchface": false
+    }
+}
