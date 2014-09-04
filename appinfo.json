@@ -1,12 +1,13 @@
 {
     "appKeys": {
+        "KEY_IP": 4,
         "KEY_ISGET": 2,
         "KEY_PIN": 0,
         "KEY_SETSTATE": 3,
         "KEY_STATE": 1
     },
     "capabilities": [
-        ""
+        "configurable"
     ],
     "companyName": "Zonalhaz",
     "longName": "Pi Lamp Controller",

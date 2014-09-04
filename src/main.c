@@ -1,16 +1,18 @@
 #include <pebble.h>
 #include <string.h>
-	
+		
 Window* window;
 TextLayer *text_layer;
 
-char state[5];
+char g_state[32];
 
 //Appmessage stuff
 enum {
 	KEY_PIN = 0,
 	KEY_STATE = 1,
 	KEY_ISGET = 2,
+	KEY_SETSTATE = 3,
+	KEY_IP = 4,
 };
 
 //For sending appmessages
@@ -30,7 +32,7 @@ void process_tuple(Tuple *t)
   //Get key
   int key = t->key;
   
-  char string_value[5];
+  char string_value[32];
   strcpy(string_value, t->value->cstring);
 	
   //Decide what to do
@@ -45,8 +47,12 @@ void process_tuple(Tuple *t)
 		    }
 	  else
 		  	text_layer_set_text(text_layer, "OFF");
-	  strcpy(state,string_value);
+	  //copy the state of the pin to state
+	  strcpy(g_state,string_value);
       break;
+	 case KEY_IP:
+	  persist_write_string(KEY_IP, string_value);
+	  break;
   }
 }
 
@@ -77,7 +83,7 @@ void down_click_handler(ClickRecognizerRef recognizer, void *context)
 
 void select_click_handler(ClickRecognizerRef recognizer, void *context)
 {
-	send_int(2,1);
+	send_int(2,0);
 		
 	//Create an array of ON-OFF-ON etc durations in milliseconds
 	uint32_t segments[] = {100};
