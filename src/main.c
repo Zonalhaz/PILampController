@@ -12,7 +12,7 @@ enum {
 	KEY_STATE = 1,
 	KEY_ISGET = 2,
 	KEY_SETSTATE = 3,
-	KEY_IP = 4,
+	KEY_STATUS = 4,
 };
 
 //For sending appmessages
@@ -50,9 +50,6 @@ void process_tuple(Tuple *t)
 	  //copy the state of the pin to state
 	  strcpy(g_state,string_value);
       break;
-	 case KEY_IP:
-	  persist_write_string(KEY_IP, string_value);
-	  break;
   }
 }
 
@@ -108,12 +105,15 @@ void click_config_provider(void *context)
 /* Load all Window sub-elements */
 void window_load(Window *window)
 {
-	text_layer = text_layer_create(GRect(0, 0, 144, 168));
+	text_layer = text_layer_create(GRect(0, 50, 144, 168));
 	text_layer_set_background_color(text_layer, GColorClear);
 	text_layer_set_text_color(text_layer, GColorBlack);
 	
+	text_layer_set_font(text_layer, fonts_get_system_font(FONT_KEY_BITHAM_42_BOLD));
+	text_layer_set_text_alignment(text_layer, GTextAlignmentCenter);
+	
 	layer_add_child(window_get_root_layer(window), (Layer*) text_layer);
-	//text_layer_set_text(text_layer, "Press a button!");
+	text_layer_set_text(text_layer, "Press a button!");
 }
 
 /* Un-load all Window sub-elements */

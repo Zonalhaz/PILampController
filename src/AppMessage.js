@@ -1,16 +1,17 @@
 
 var g_state;
-var ipAddress;
+var ipAddress = localStorage.getItem(0);
 
 function HTTPGET(url) {
     var req = new XMLHttpRequest();
 	var result;
+	console.log("opening request");
     req.open("GET", url, false);
 	
 	req.onload = function (e) {
   if (req.readyState === 4) {
     if (req.status === 200) {
-      console.log(req.responseText);
+      console.log("success");
 		result = req.responseText;
 
     } else {
@@ -24,7 +25,10 @@ function HTTPGET(url) {
 		console.log("Error Connecting " + req.statusText);
 		result = "error";
 		console.log("result: " + result);
-		//MAYBE ADD AN APPMESSAGE ABOUT ERROR
+		var dict = {"KEY_STATUS" : "Error Connecting"};
+ 
+		//Send data to watch for display
+		Pebble.sendAppMessage(dict); 
 	};
 	
 	req.send(null);
@@ -34,7 +38,7 @@ function HTTPGET(url) {
 
 //Get the status of the pin from the pi
 var getStatus = function() {
-    console.log("about to fetch");
+	console.log("about to fetch at:" + "http://"+ipAddress+"/api/get?pin=18");
     var response = HTTPGET("http://"+ipAddress+"/api/get?pin=18");
 	console.log("fetch complete");
 	console.log("response: " + response);
@@ -62,6 +66,7 @@ var getStatus = function() {
 
 //used to set the pin
 var setStatus = function() {
+	console.log("Setstatus");
 	console.log("g_state is: " + g_state);
 	var newState;
 	
@@ -70,7 +75,8 @@ var setStatus = function() {
 	else
 		newState = "true";
 	//Set pin to new state	
-	HTTPGET("http://86.173.134.240:8888/api/set?pin=18&value=" + newState );
+	console.log("Requesting: " + "http://86.173.134.240:8888/api/set?pin=18&value=" + newState );
+	HTTPGET("http://" +ipAddress + "/api/set?pin=18&value=" + newState );
 	
 	console.log("set to " + newState);
 	//Call getStatus
@@ -83,6 +89,7 @@ Pebble.addEventListener("ready",
   function(e) {
 	console.log("javascript ready");
     //App is ready to receive JS messages
+	//if(localStorage.getItem(0) !== null)
 	//getStatus();
   }
 );
@@ -120,9 +127,14 @@ Pebble.addEventListener("webviewclosed",
     console.log("Configuration window returned: " + configurationResult);
 	
 	localStorage.setItem(0,configurationResult);
+	ipAddress = configurationResult;
 	
+	var dict = {"KEY_STATUS" : ipAddress};
+ 
+	//Send data to watch for display
+	Pebble.sendAppMessage(dict); 
 	
-	//getStatus();
+	getStatus();
 	
   }
 );

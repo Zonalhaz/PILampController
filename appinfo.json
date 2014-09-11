@@ -1,10 +1,10 @@
 {
     "appKeys": {
-        "KEY_IP": 4,
         "KEY_ISGET": 2,
         "KEY_PIN": 0,
         "KEY_SETSTATE": 3,
-        "KEY_STATE": 1
+        "KEY_STATE": 1,
+        "KEY_STATUS": 4
     },
     "capabilities": [
         "configurable"
